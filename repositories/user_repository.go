@@ -13,8 +13,8 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 	return &UserRepository{db: db}
 }
 
-func (r *UserRepository) SaveIdentity(identity *models.Identity) error {
-	if err := r.db.Save(identity).Error; err != nil {
+func (r *UserRepository) SaveUser(user *models.User) error {
+	if err := r.db.Save(user).Error; err != nil {
 		return err
 	}
 	return nil

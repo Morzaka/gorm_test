@@ -1,0 +1,18 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/data-volumes/postgres/:/var/lib/postgresql/data/
+      - ./docker/postgres/:/docker-entrypoint-initdb.d/
+  liquibase:
+    image: webdevops/liquibase:postgres
+    restart: 'no'
+    depends_on:
+      - postgres
+    volumes:
+      - ./docker/liquibase/:/scripts/
+    command: /scripts/wait_for_postgres_then_init.sh

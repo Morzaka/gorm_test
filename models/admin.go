@@ -2,26 +2,24 @@ package models
 
 import (
 	"database/sql/driver"
-	"github.com/google/uuid"
 )
 
-type role string
+type Role string
 
 const (
-	AllPermission role = "admin"
-	CanBLockUsers role = "superUser"
+	AllPermission Role = "admin"
+	CanBLockUsers Role = "superUser"
 )
 
-func (r *role) Scan(value interface{}) error {
-	*r = role(value.([]byte))
+func (r *Role) Scan(value interface{}) error {
+	*r = Role(value.([]byte))
 	return nil
 }
-func (r role) Value() (driver.Value, error) {
+func (r Role) Value() (driver.Value, error) {
 	return string(r), nil
 }
 
 type Admin struct {
-	//ID   uint      `gorm:"type:uint;primary_key;"`
-	IdentityID uuid.UUID `gorm:"type:uuid"`
-	Role role      `sql:"type:Role"`
+	ID   int  `gorm:"type:int;primary_key;"`
+	Role Role `sql:"type:Role"`
 }

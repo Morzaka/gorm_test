@@ -2,26 +2,26 @@ package models
 
 import (
 	"database/sql/driver"
-	"github.com/google/uuid"
 )
 
-type hobby string
+type Hobby string
 
 const (
-	Sport      hobby = "sport"
-	Embroidery hobby = "embroidery"
+	Sport      Hobby = "sport"
+	Embroidery Hobby = "embroidery"
 )
 
-func (h *hobby) Scan(value interface{}) error {
-	*h = hobby(value.([]byte))
+func (h *Hobby) Scan(value interface{}) error {
+	*h = Hobby(value.([]byte))
 	return nil
 }
-func (h hobby) Value() (driver.Value, error) {
+func (h Hobby) Value() (driver.Value, error) {
 	return string(h), nil
 }
 
-type Hobby struct {
-	ID        uuid.UUID `gorm:"type:uuid"`
-	HobbyType hobby     `sql:"type:hobby"`
-	Comment   string    `gorm:"size:255"`
+type HobbyType struct {
+	ID      int    `gorm:"type:int"`
+	UserID  int    `gorm:"foreignkey:ID"`
+	Hobby   Hobby  `sql:"type:hobby"`
+	Comment string `gorm:"size:255"`
 }
