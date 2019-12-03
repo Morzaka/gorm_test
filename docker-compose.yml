@@ -2,17 +2,19 @@ version: "3"
 services:
   postgres:
     image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=users
     restart: always
     ports:
       - "5432:5432"
     volumes:
       - ./docker/data-volumes/postgres/:/var/lib/postgresql/data/
-      - ./docker/postgres/:/docker-entrypoint-initdb.d/
   liquibase:
     image: webdevops/liquibase:postgres
     restart: 'no'
     depends_on:
       - postgres
     volumes:
-      - ./docker/liquibase/:/scripts/
-    command: /scripts/wait_for_postgres_then_init.sh
+      - ./docker/:/liquibase/
