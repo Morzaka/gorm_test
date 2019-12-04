@@ -17,4 +17,11 @@ services:
     depends_on:
       - postgres
     volumes:
-      - ./docker/:/liquibase/
+    - ./liquibase/:/liquibase/
+    environment:
+      - LIQUIBASE_URL=jdbc:postgresql://postgres:5432/users
+      - LIQUIBASE_USERNAME=postgres
+      - LIQUIBASE_PASSWORD=postgres
+      - LIQUIBASE_CHANGELOG=/liquibase/changelog.xml
+    command:
+      - update
